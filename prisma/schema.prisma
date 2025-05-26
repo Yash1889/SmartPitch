@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  role          UserRole  @default(STARTUP)
+  startup       Startup?
+  investor      Investor?
+}
+
+enum UserRole {
+  STARTUP
+  INVESTOR
+  ADMIN
+}
+
+model Startup {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id])
+  companyName     String
+  description     String?   @db.Text
+  industry        String
+  stage           String
+  location        String
+  foundedDate     DateTime?
+  teamSize        Int?
+  valuation       Float?
+  pitchDeck       PitchDeck?
+  matches         Match[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  financialMetrics Json?
+}
+
+model Investor {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id])
+  firmName        String
+  description     String?   @db.Text
+  investmentFocus String[]
+  stagePreference String[]
+  checkSize       Json      // { min: number, max: number }
+  location        String
+  portfolioSize   Int?
+  matches         Match[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model PitchDeck {
+  id              String    @id @default(cuid())
+  startupId       String    @unique
+  startup         Startup   @relation(fields: [startupId], references: [id])
+  currentVersion  Int       @default(1)
+  content         Json
+  feedback        Feedback[]
+  analytics       Analytics?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Feedback {
+  id              String    @id @default(cuid())
+  pitchDeckId     String
+  pitchDeck       PitchDeck @relation(fields: [pitchDeckId], references: [id])
+  content         String    @db.Text
+  rating          Int?      @db.SmallInt
+  createdAt       DateTime  @default(now())
+}
+
+model Analytics {
+  id              String    @id @default(cuid())
+  pitchDeckId     String    @unique
+  pitchDeck       PitchDeck @relation(fields: [pitchDeckId], references: [id])
+  views           Int       @default(0)
+  uniqueViews     Int       @default(0)
+  averageTime     Float     @default(0)
+  lastViewed      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Match {
+  id              String    @id @default(cuid())
+  startupId       String
+  startup         Startup   @relation(fields: [startupId], references: [id])
+  investorId      String
+  investor        Investor  @relation(fields: [investorId], references: [id])
+  score           Float
+  status          MatchStatus @default(PENDING)
+  notes           String?   @db.Text
+  communications  Communication[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([startupId, investorId])
+}
+
+model Communication {
+  id              String    @id @default(cuid())
+  matchId         String
+  match           Match     @relation(fields: [matchId], references: [id])
+  type            CommunicationType
+  content         String    @db.Text
+  metadata        Json?
+  createdAt       DateTime  @default(now())
+}
+
+enum MatchStatus {
+  PENDING
+  CONTACTED
+  REPLIED
+  MEETING_SCHEDULED
+  PITCH_COMPLETED
+  INTERESTED
+  NOT_INTERESTED
+  DEAL_CLOSED
+}
+
+enum CommunicationType {
+  EMAIL
+  MEETING
+  CALL
+  NOTE
+  OTHER
+}
