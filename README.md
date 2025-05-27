@@ -120,10 +120,6 @@ npm run dev
 4. Push to the branch (`git push origin feature/NewFeature`)
 5. Open a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Contact
 
 - GitHub: [https://github.com/Yash1889](https://github.com/Yash1889)
