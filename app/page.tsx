@@ -1,146 +1,404 @@
+"use client";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+
+// Animation variants
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
+
+const techStack = [
+  { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
+  { name: 'Next.js', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg' },
+  { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg' },
+  { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
+  { name: 'FastAPI', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg' },
+  { name: 'TailwindCSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg' },
+];
+
 export default function Home() {
+  const [isVisible, setIsVisible] = useState(false);
+  const statsRef = useRef(null);
+  
+  useEffect(() => {
+    // Initialize visibility
+    setIsVisible(true);
+    
+    // Counter animation
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          animateNumbers();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+    
+    return () => observer.disconnect();
+  }, []);
+  
+  const animateNumbers = () => {
+    const countElements = document.querySelectorAll('.count-up');
+    countElements.forEach((element) => {
+      const target = parseInt(element.getAttribute('data-target') || '0');
+      const duration = 2000; // 2 seconds
+      const stepTime = 50; // Update every 50ms
+      const steps = duration / stepTime;
+      const increment = target / steps;
+      let current = 0;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          element.textContent = target.toString();
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.floor(current).toString();
+        }
+      }, stepTime);
+    });
+  };
+
   return (
-    <main className="flex flex-col items-center text-center text-white p-16 min-h-screen" style={{ background: 'linear-gradient(to bottom, #e0e0e0, #a0a0a0)', fontFamily: 'Space Grotesk, sans-serif' }}>
-      <h1 className="text-5xl mb-4 text-black">🚀 PitchSense</h1>
-      <p className="text-xl max-w-xl mb-8 text-black">
-        The AI Fundraising Agent for Founders.
-      </p>
-      <a href="/pitch">
-        <button className="py-4 px-8 bg-[#62C494] border-none rounded-lg font-bold shadow-lg shadow-[#4AD39C] cursor-pointer">
-          Find Investors
-        </button>
-      </a>
-
-      {/* New Marketing Content */}
-      <section className="mt-16 w-full max-w-4xl text-black">
-        <h2 className="text-3xl font-bold mb-8">From Match to Pitch — All Handled</h2>
-        <p className="text-xl mb-8">
-          Connect with the right investors, co-create your pitch, auto-generate outreach and track it all right here.
-        </p>
-
-        <div className="flex justify-center space-x-4 mb-12">
-          <button className="py-3 px-6 bg-white text-[#060E0A] rounded-lg font-bold">Try PitchSense Free</button>
+    <div className="overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#062c43] to-[#054a91] opacity-20"></div>
+          <div className="absolute inset-0 bg-[url('/hero-pattern.svg')] opacity-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0f1116] via-transparent to-transparent"></div>
         </div>
-
-        <div className="flex justify-around items-center mb-16 bg-black bg-opacity-50 p-4 rounded-lg">
-          <div className="text-white text-center font-semibold text-sm">
-            <div className="text-4xl font-bold">500+</div>
-            <div className="text-xl">Active Investors</div>
-          </div>
-          <div className="text-white text-center font-semibold text-sm">
-            <div className="text-4xl font-bold">95%</div>
-            <div className="text-xl">Match Accuracy</div>
-          </div>
-          <div className="text-white text-center font-semibold text-sm">
-            <div className="text-4xl font-bold">2.5x</div>
-            <div className="text-xl">Response Rate</div>
-          </div>
-          <div className="text-white text-center font-semibold text-sm">
-            <div className="text-4xl font-bold">24h</div>
-            <div className="text-xl">Avg. Response</div>
-          </div>
-        </div>
-
-        <div className="mb-16">
-          <p className="text-sm uppercase tracking-wide opacity-75 text-black">TRUSTED BY LEADING VENTURE CAPITAL FIRMS</p>
-        </div>
-
-        <h2 className="text-3xl font-bold mb-8">Why founders choose PitchSense</h2>
-        <p className="text-xl mb-8">Our AI-powered platform streamlines your fundraising process with smart features</p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white bg-opacity-75 p-6 rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold mb-2">AI-Powered Investor Matching</h3>
-            <p>Our advanced AI algorithm analyzes investor preferences and startup profiles to create perfect matches.</p>
-          </div>
-          <div className="bg-white bg-opacity-75 p-6 rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold mb-2">Smart Pitch Generation</h3>
-            <p>Generate personalized, context-aware pitches that resonate with each investor's interests and portfolio.</p>
-          </div>
-          <div className="bg-white bg-opacity-75 p-6 rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold mb-2">Engagement Analytics</h3>
-            <p>Track investor interactions and optimize your outreach strategy with real-time analytics.</p>
+        
+        <div className="container mx-auto px-4 md:px-6 z-10">
+          <div className="max-w-5xl mx-auto text-center">
+            <motion.h1 
+              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="text-[#62C494]">Smart</span>Pitch
+            </motion.h1>
+            
+            <motion.p 
+              className="text-xl md:text-2xl text-gray-300 mb-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              The AI Fundraising Assistant for Modern Founders
+            </motion.p>
+            
+            <motion.div
+              className="flex flex-col sm:flex-row justify-center gap-4 mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <Link href="/generate-pitch" className="bg-[#62C494] hover:bg-[#4AD39C] text-[#0f1116] font-bold py-4 px-8 rounded-lg transition-all transform hover:scale-105">
+                Generate Your Pitch
+              </Link>
+              <Link href="/match" className="bg-transparent hover:bg-white/10 text-white border-2 border-white py-4 px-8 rounded-lg transition-all transform hover:scale-105">
+                Find Investors
+              </Link>
+            </motion.div>
+            
+            <motion.p
+              className="text-gray-400"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              From Match to Pitch — All Handled Intelligently
+            </motion.p>
           </div>
         </div>
-
-        <h2 className="text-3xl font-bold mb-8">What makes PitchSense different?</h2>
-        <p className="text-xl mb-8">We combine AI precision with human insight to deliver a fundraising experience that's both powerful and intuitive.</p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div>
-            <h3 className="text-2xl font-bold mb-2">Trust-Aware Matching</h3>
-            <p>Our AI explains why each investor is recommended, providing complete transparency in the matching process.</p>
-          </div>
-          <div>
-            <h3 className="text-2xl font-bold mb-2">Complete Control</h3>
-            <p>Customize every aspect of your outreach strategy, from pitch content to targeting preferences.</p>
-          </div>
-          <div>
-            <h3 className="text-2xl font-bold mb-2">Team Collaboration</h3>
-            <p>Share insights and coordinate outreach efforts seamlessly with your team and advisors.</p>
-          </div>
+        
+        <div className="absolute bottom-10 left-0 right-0 flex justify-center">
+          <motion.div 
+            className="animate-bounce"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </motion.div>
         </div>
-
-        <h2 className="text-3xl font-bold mb-8">Ready to Transform Your Fundraising Journey?</h2>
-        <p className="text-xl mb-8">
-          Join hundreds of founders who are using PitchSense to connect with their ideal investors and accelerate their fundraising process.
-        </p>
-
       </section>
-
+      
+      {/* Stats Section */}
+      <section className="py-16 bg-gradient-to-b from-[#0f1116] to-[#181c20]" ref={statsRef}>
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div className="bg-[#1f2229] p-6 rounded-xl transform hover:scale-105 transition-all">
+              <div className="text-3xl md:text-4xl font-bold text-[#62C494] mb-2 count-up" data-target="500">0</div>
+              <div className="text-gray-400">Active Investors</div>
+            </div>
+            <div className="bg-[#1f2229] p-6 rounded-xl transform hover:scale-105 transition-all">
+              <div className="text-3xl md:text-4xl font-bold text-[#62C494] mb-2 count-up" data-target="95">0</div>
+              <div className="text-gray-400">Match Accuracy %</div>
+            </div>
+            <div className="bg-[#1f2229] p-6 rounded-xl transform hover:scale-105 transition-all">
+              <div className="text-3xl md:text-4xl font-bold text-[#62C494] mb-2">2.5x</div>
+              <div className="text-gray-400">Response Rate</div>
+            </div>
+            <div className="bg-[#1f2229] p-6 rounded-xl transform hover:scale-105 transition-all">
+              <div className="text-3xl md:text-4xl font-bold text-[#62C494] mb-2">24h</div>
+              <div className="text-gray-400">Avg. Response</div>
+            </div>
+          </div>
+          <div className="mt-12 text-center">
+            <p className="text-sm text-gray-400 uppercase tracking-wider">TRUSTED BY LEADING VENTURE CAPITAL FIRMS</p>
+          </div>
+        </div>
+      </section>
+      
+      {/* Features Section */}
+      <section className="py-20 bg-[#0f1116]">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div 
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            variants={fadeIn}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why founders choose SmartPitch</h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Our AI-powered platform streamlines your fundraising process with intelligent features
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div 
+              className="bg-gradient-to-br from-[#181c20] to-[#1f2229] p-8 rounded-2xl shadow-xl"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              variants={fadeIn}
+            >
+              <div className="bg-[#62C494]/20 p-3 rounded-xl inline-block mb-6">
+                <svg className="w-8 h-8 text-[#62C494]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-3">AI-Powered Investor Matching</h3>
+              <p className="text-gray-400">
+                Our advanced AI algorithm analyzes investor preferences and startup profiles to create perfect matches.
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              className="bg-gradient-to-br from-[#181c20] to-[#1f2229] p-8 rounded-2xl shadow-xl"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              variants={fadeIn}
+            >
+              <div className="bg-[#62C494]/20 p-3 rounded-xl inline-block mb-6">
+                <svg className="w-8 h-8 text-[#62C494]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-3">Smart Pitch Generation</h3>
+              <p className="text-gray-400">
+                Generate personalized, context-aware pitches that resonate with each investor's interests and portfolio.
+              </p>
+            </motion.div>
+            
+            <motion.div 
+              className="bg-gradient-to-br from-[#181c20] to-[#1f2229] p-8 rounded-2xl shadow-xl"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              variants={fadeIn}
+            >
+              <div className="bg-[#62C494]/20 p-3 rounded-xl inline-block mb-6">
+                <svg className="w-8 h-8 text-[#62C494]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-3">Engagement Analytics</h3>
+              <p className="text-gray-400">
+                Track investor interactions and optimize your outreach strategy with real-time analytics.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Team Section */}
+      <section className="py-20 bg-[#181c20]">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div 
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            variants={fadeIn}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Team</h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              The talented people behind SmartPitch
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            <motion.div 
+              className="bg-[#1f2229] rounded-xl overflow-hidden shadow-xl"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              variants={fadeIn}
+            >
+              <div className="h-48 bg-gradient-to-r from-[#062c43] to-[#054a91] flex items-center justify-center">
+                <div className="w-24 h-24 bg-[#62C494] rounded-full flex items-center justify-center text-3xl font-bold text-white">YG</div>
+              </div>
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-bold mb-1">Yashraj Gupta</h3>
+                <p className="text-[#62C494] mb-4">Founder & CEO</p>
+                <p className="text-gray-400 mb-4">
+                  Leading innovation at the intersection of AI and fundraising.
+                </p>
+                <a 
+                  href="https://github.com/Yash1889" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-[#62C494] hover:text-white transition-colors"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                  GitHub
+                </a>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              className="bg-[#1f2229] rounded-xl overflow-hidden shadow-xl"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              variants={fadeIn}
+            >
+              <div className="h-48 bg-gradient-to-r from-[#062c43] to-[#054a91] flex items-center justify-center">
+                <div className="w-24 h-24 bg-[#62C494] rounded-full flex items-center justify-center text-3xl font-bold text-white">YS</div>
+              </div>
+              <div className="p-6 text-center">
+                <h3 className="text-xl font-bold mb-1">Yashpratap Singh</h3>
+                <p className="text-[#62C494] mb-4">Frontend Engineer</p>
+                <p className="text-gray-400 mb-4">
+                  Crafting beautiful user experiences with modern web technologies.
+                </p>
+                <a 
+                  href="https://github.com/Yash1889" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-[#62C494] hover:text-white transition-colors"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                  GitHub
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
       {/* Tech Stack Section */}
-      <section className="mt-16 w-full max-w-4xl text-black">
-        <h2 className="text-3xl font-bold mb-8">Our Tech Stack</h2>
-        <div className="bg-black bg-opacity-50 p-6 rounded-lg">
-          <div className="flex justify-center items-center space-x-8">
-            <div className="text-center">
-              <img src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-1024.png" alt="React Logo" className="w-12 h-12 mx-auto mb-2" />
-              <p className="text-xl text-white">React</p>
-            </div>
-            <div className="text-center">
-              <img src="https://static-00.iconduck.com/assets.00/openai-icon-2021x2048-4rpe5x7n.png" alt="OpenAI Logo" className="w-12 h-12 mx-auto mb-2" />
-              <p className="text-xl text-white">OpenAI</p>
-            </div>
-            <div className="text-center">
-              <img src="https://static-00.iconduck.com/assets.00/nextjs-icon-2048x2048-eugu5rfi.png" alt="Next.js Logo" className="w-12 h-12 mx-auto mb-2" />
-              <p className="text-xl text-white">Next.js</p>
-            </div>
-            <div className="text-center">
-              <img src="https://img.notionusercontent.com/s3/prod-files-secure%2F222ff4f6-9f64-41e1-a6d8-2d647b2d6baa%2F9cea144e-f80a-4de8-bcb9-b3f974262f9f%2Fimage.png/size/w=190?exp=1748204021&sig=YOc7eTn88UvDZLu1dK73g3_e-IiuB78qmYP7LfnxTVc&id=1fc85418-94b8-80f5-8956-c80358df725f&table=block" alt="DEX Logo" className="w-12 h-12 mx-auto mb-2" />
-              <p className="text-xl text-white">DEX</p>
-            </div>
-            <div className="text-center">
-              <img src="https://www.aigcbb.com/wp-content/uploads/2025/04/1745758519-250427205457.png" alt="Trae Logo" className="w-12 h-12 mx-auto mb-2" />
-              <p className="text-xl text-white">Trae</p>
-            </div>
+      <section className="py-20 bg-[#0f1116]">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div 
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            variants={fadeIn}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Tech Stack</h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Built with cutting-edge technologies
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {techStack.map((tech, i) => (
+              <motion.div
+                key={tech.name}
+                className="bg-[#1f2229] p-6 rounded-xl flex flex-col items-center"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.1 }}
+                variants={fadeIn}
+              >
+                <img src={tech.icon} alt={tech.name} className="w-16 h-16 mb-4" />
+                <p className="font-medium text-center">{tech.name}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
-      <section className="mt-16 w-full max-w-4xl text-black">
-        <h2 className="text-3xl font-bold mb-8">Our Team</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="text-center">
-            <img src="https://media.licdn.com/dms/image/v2/D5603AQFU9R5jmQ0gQQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1727719633179?e=1753315200&v=beta&t=ptG8zmzX9LjOXSs9I2aenwqZ4aZ1ZGG9H_A8sL3Mq5Q" alt="Avikalp Karrahe" className="w-24 h-24 mx-auto mb-2 rounded-full" />
-            <p className="text-xl font-bold">Avikalp Karrahe</p>
-            <p className="text-lg">Backend Engineer</p>
-          </div>
-          <div className="text-center">
-            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGrXv_nVqPg1g/profile-displayphoto-shrink_800_800/B4DZWD_J9kGkAc-/0/1741676126457?e=1753315200&v=beta&t=Kc_ywZ6xBhpiD1fxmeqDRPQQRkGiuOmKISSIXM9OTTc" alt="Yifei Li" className="w-24 h-24 mx-auto mb-2 rounded-full" />
-            <p className="text-xl font-bold">Yifei Li</p>
-            <p className="text-lg">Backend Engineer</p>
-          </div>
-          <div className="text-center">
-            <img src="https://media.licdn.com/dms/image/v2/D4E03AQFyRHxOhlEwpA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1727723187847?e=1753315200&v=beta&t=c3heZyGgs_t6gJrHP1kJBfNVTBg5cMmE1I4DX2Sil6I" alt="Rachel Guo" className="w-24 h-24 mx-auto mb-2 rounded-full" />
-            <p className="text-xl font-bold">Rachel Guo</p>
-            <p className="text-lg">Frontend Engineer</p>
-          </div>
-          <div className="text-center">
-            <img src="https://media.licdn.com/dms/image/v2/D4D03AQHE0kzz5nGAWg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1724565017033?e=1753315200&v=beta&t=1sTPcDd9_7r_EiQXYtNd04Vbrri4B25LJjrg-C4H1wM" alt="Chaitanya Khot" className="w-24 h-24 mx-auto mb-2 rounded-full" />
-            <p className="text-xl font-bold">Chaitanya Khot</p>
-            <p className="text-lg">UI/UX Lead</p>
+      
+      {/* CTA Section */}
+      <section className="py-16 bg-gradient-to-r from-[#062c43] to-[#054a91]">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-6"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              variants={fadeIn}
+            >
+              Ready to Transform Your Fundraising Journey?
+            </motion.h2>
+            
+            <motion.p 
+              className="text-xl text-gray-200 mb-8"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              variants={fadeIn}
+            >
+              Join hundreds of founders who are using SmartPitch to connect with their ideal investors and accelerate their fundraising process.
+            </motion.p>
+            
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              variants={fadeIn}
+            >
+              <Link href="/generate-pitch" className="bg-white hover:bg-gray-100 text-[#062c43] font-bold py-4 px-8 rounded-lg transition-all transform hover:scale-105 inline-block">
+                Try SmartPitch Now
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

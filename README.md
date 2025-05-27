@@ -1,81 +1,123 @@
-# PitchSense - AI-Powered Startup Pitch Analysis
+# SmartPitch - AI-Powered Fundraising Assistant for Startups
 
-PitchSense is an innovative platform that leverages artificial intelligence to analyze and enhance startup pitches, helping entrepreneurs connect with the right investors and improve their fundraising success.
+![SmartPitch Logo](public/hero-pattern.svg)
+
+SmartPitch is an AI-powered platform that helps founders create compelling investor pitches, connect with the right investors, and improve their fundraising success rate. The application uses advanced AI technologies from OpenAI and Anthropic to generate high-quality pitch content with confidence scoring, provide section-specific improvements, and match startups with relevant investors.
 
 ## Project Structure
 
 ```
-├── Front-end pitchsense/     # Next.js frontend application
-│   ├── public/              # Static assets
-│   ├── src/                 # Source code
-│   └── ...config files      # Various configuration files
+├── app/                     # Next.js frontend application
+│   ├── components/          # Reusable UI components
+│   ├── lib/                 # Utility functions and API clients
+│   └── [feature]/page.tsx   # Page components for each feature
+├── public/                  # Static assets
 ├── server/                  # FastAPI backend server
-│   ├── llm/                 # LLM integration modules
-│   └── routes/              # API endpoints
-├── data files/              # CSV datasets for analysis
-└── Python scripts/          # Utility scripts
+│   ├── llm/                 # LLM integration with OpenAI and Anthropic
+│   ├── routes/              # API endpoints
+│   └── simple.py            # Main server application
+└── .env                     # Environment variables for API keys
 ```
 
-## Features
+## Key Features
 
-- AI-powered pitch analysis and improvement suggestions
-- Investor matching based on startup characteristics
-- Comprehensive startup insights database
-- Modern Next.js frontend with Tailwind CSS
-- Robust FastAPI backend with LLM integration
+### 1. AI Pitch Generation
+- Creates complete startup pitches using OpenAI API
+- Includes key sections: problem, solution, market, business model, competition, traction, and ask
+- Provides confidence scoring for each section to highlight strengths and weaknesses
+
+### 2. Section Improvement
+- AI-powered enhancement of specific pitch sections
+- Uses Anthropic API to provide targeted improvements based on user feedback
+- Maintains tone and style while enhancing content quality
+
+### 3. Investor Matching
+- Matches startups with relevant investors based on specific criteria
+- Provides detailed investor profiles including investment range, portfolio, and contact information
+- Sorts investors by match score to prioritize outreach
+
+### 4. Email Generation
+- Creates personalized outreach emails for matched investors
+- Tailors content based on investor preferences and startup details
+- Includes customizable templates for different outreach scenarios
+
+### 5. Pitch Status
+- Provides comprehensive analysis of pitch quality
+- Highlights strengths and areas for improvement
+- Indicates investor readiness with actionable feedback
+
+### 6. Questions Database
+- Curated list of common investor questions with strategic answers
+- Helps founders prepare for investor meetings
+- Includes copy functionality for easy reference
 
 ## Tech Stack
 
 ### Frontend
-- Next.js
-- TypeScript
-- Tailwind CSS
-- ESLint
+- Next.js 15.1.8
+- React with TypeScript
+- Framer Motion for animations
+- Tailwind CSS for styling
+- Local storage for state persistence
 
 ### Backend
 - FastAPI
 - Python 3.13
-- OpenAI/Anthropic API integration
-- Various ML/AI libraries
+- OpenAI API integration
+- Anthropic API integration
+- Error handling with fallback mechanisms
 
 ## Setup
 
 1. Clone the repository
 ```bash
-git clone [repository-url]
-cd pitchsense
+git clone https://github.com/Yash1889/SmartPitch.git
+cd SmartPitch
 ```
 
-2. Set up the frontend
+2. Install dependencies
 ```bash
-cd Front-end\ pitchsense/
+# Install frontend dependencies
 npm install
+
+# Install backend dependencies
+pip install fastapi uvicorn openai anthropic python-dotenv
+```
+
+3. Configure environment variables
+```bash
+# Copy the example environment file
+cp .env.example .env
+
+# Edit .env to add your API keys
+# Required: OPENAI_API_KEY, ANTHROPIC_API_KEY
+```
+
+4. Start the servers
+```bash
+# Start the backend server
+python -m uvicorn server.simple:app --host 0.0.0.0 --port 8000
+
+# In a separate terminal, start the frontend
 npm run dev
 ```
 
-3. Set up the backend
-```bash
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+5. Access the application
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
 
-# Install dependencies
-pip install -r requirements.txt
+## Development Notes
 
-# Start the server
-python server/main.py
-```
-
-4. Configure environment variables
-- Copy `.env.example` to `.env`
-- Add necessary API keys and configuration
+- The application uses local storage to persist pitch data between pages
+- Both OpenAI and Anthropic APIs require valid API keys for full functionality
+- Mock data is available as fallback if API keys are not configured
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch (`git checkout -b feature/NewFeature`)
+3. Commit your changes (`git commit -m 'Add some NewFeature'`)
+4. Push to the branch (`git push origin feature/NewFeature`)
 5. Open a Pull Request
 
 ## License
@@ -84,4 +126,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 
-Project Link: [https://github.com/Avikalp-Karrahe/pitchsense](https://github.com/avikalp-karrahe/pitchsense)
+- GitHub: [https://github.com/Yash1889](https://github.com/Yash1889)
+- Project Link: [https://github.com/Yash1889/SmartPitch](https://github.com/Yash1889/SmartPitch)
+- Developer: Yashraj Gupta

@@ -1,6 +1,9 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/page": "app/page.js",
-  "/tracker/page": "app/tracker/page.js",
-  "/pitch/page": "app/pitch/page.js"
+  "/email/page": "app/email/page.js",
+  "/generate-pitch/page": "app/generate-pitch/page.js",
+  "/questions/page": "app/questions/page.js",
+  "/improve-section/page": "app/improve-section/page.js",
+  "/match/page": "app/match/page.js",
+  "/pitch-status/page": "app/pitch-status/page.js",
+  "/page": "app/page.js"
 }

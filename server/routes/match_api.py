@@ -1,9 +1,9 @@
-from fastapi import FastAPI
+from fastapi import APIRouter
 from pydantic import BaseModel
 import pandas as pd
 from difflib import SequenceMatcher
 
-app = FastAPI()
+router = APIRouter()
 
 # Load VC and startup data
 df_vc = pd.read_csv("VC_FundStage_Location_Sector.csv")
@@ -95,7 +95,7 @@ class Startup(BaseModel):
     country: str
     has_investor: str = ""
 
-@app.post("/api/match")
+@router.post("/api/match")
 def match(startup: Startup):
     results = []
     startup_industry = normalize_industry(startup.industry)

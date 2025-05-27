@@ -2,6 +2,8 @@ from typing import Dict, Any
 from .confidence_scorer import analyze_pitch_confidence
 from .llm_router import route_llm_call
 from .anthropic_client import AnthropicClient
+import json
+import re
 
 def improve_pitch_section(section_name: str, current_text: str, user_input: str) -> Dict[str, Any]:
     """Improve a specific section of the pitch based on user input."""
@@ -26,8 +28,36 @@ Return only the improved text without any explanations or formatting."""
     # Call LLM for improving the section
     improved_text = route_llm_call("pitch_block", prompt, max_tokens=500)
     
+    # Check if the improved text might be JSON and clean it up
+    improved_text = improved_text.strip()
+    
+    # Try to detect if the response is JSON and extract just the text we need
+    if improved_text.startswith('{') and improved_text.endswith('}'):
+        try:
+            # If it looks like JSON, try to parse it
+            json_data = json.loads(improved_text)
+            
+            # Case 1: If the JSON has the section we want directly
+            if section_name.lower() in json_data:
+                section_data = json_data[section_name.lower()]
+                if isinstance(section_data, dict) and 'text' in section_data:
+                    improved_text = section_data['text']
+            
+            # Case 2: Look for a section containing our target text
+            else:
+                for key, value in json_data.items():
+                    if isinstance(value, dict) and 'text' in value:
+                        improved_text = value['text']
+                        break
+        except:
+            # If parsing fails, just keep the original text
+            pass
+    
+    # Remove any markdown code block markers
+    improved_text = re.sub(r'^```.*\n|```$', '', improved_text)
+    
     return {
-        "text": improved_text.strip(),
+        "text": improved_text,
         "original": current_text
     }
 
@@ -51,8 +81,12 @@ Return only the improved text without any explanations or formatting."""
     # Call LLM for regenerating the section
     regenerated_text = route_llm_call("regenerate", prompt, max_tokens=500)
     
+    # Clean up the text similar to improve_pitch_section
+    regenerated_text = regenerated_text.strip()
+    regenerated_text = re.sub(r'^```.*\n|```$', '', regenerated_text)
+    
     return {
-        "text": regenerated_text.strip(),
+        "text": regenerated_text,
         "original": current_text
     }
 

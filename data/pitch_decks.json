@@ -1,0 +1,94 @@
+{
+  "pitch_test_startup": {
+    "id": "pitch_test_startup",
+    "startupId": "test_startup",
+    "content": {
+      "problem": {
+        "text": "Many startups struggle with finding the right investors, often spending months on outreach with low success rates.",
+        "confidence": 0.6,
+        "sentences": [
+          {
+            "text": "Many startups struggle with finding the right investors, often spending months on outreach with low success rates.",
+            "color": "orange",
+            "confidence": 0.6,
+            "reason": "Contains vague or non-specific language"
+          }
+        ]
+      },
+      "solution": {
+        "text": "AI face recognition helps startups connect with investors more efficiently, saving time and increasing success rates.",
+        "confidence": 0.85,
+        "sentences": [
+          {
+            "text": "AI face recognition helps startups connect with investors more efficiently, saving time and increasing success rates.",
+            "color": "green",
+            "confidence": 0.85,
+            "reason": "References multiple user-provided data points"
+          }
+        ]
+      },
+      "market": {
+        "text": "The AI market is growing rapidly with significant potential for disruption and innovation.",
+        "confidence": 0.6,
+        "sentences": [
+          {
+            "text": "The AI market is growing rapidly with significant potential for disruption and innovation.",
+            "color": "orange",
+            "confidence": 0.6,
+            "reason": "References user input but lacks additional insight or context"
+          }
+        ]
+      },
+      "business_model": {
+        "text": "Our business model is based on a combination of subscription fees and success-based commissions.",
+        "confidence": 0.7,
+        "sentences": [
+          {
+            "text": "Our business model is based on a combination of subscription fees and success-based commissions.",
+            "color": "orange",
+            "confidence": 0.7,
+            "reason": "General statement without specific backing"
+          }
+        ]
+      },
+      "competition": {
+        "text": "We differentiate from competitors through our proprietary matching algorithm and focus on quality over quantity.",
+        "confidence": 0.7,
+        "sentences": [
+          {
+            "text": "We differentiate from competitors through our proprietary matching algorithm and focus on quality over quantity.",
+            "color": "orange",
+            "confidence": 0.7,
+            "reason": "General statement without specific backing"
+          }
+        ]
+      },
+      "traction": {
+        "text": "We have achieved  and are positioned for accelerated growth.",
+        "confidence": 0.7,
+        "sentences": [
+          {
+            "text": "We have achieved  and are positioned for accelerated growth.",
+            "color": "orange",
+            "confidence": 0.7,
+            "reason": "General statement without specific backing"
+          }
+        ]
+      },
+      "ask": {
+        "text": "We're seeking 120002 to scale our operations and expand our market reach.",
+        "confidence": 0.85,
+        "sentences": [
+          {
+            "text": "We're seeking 120002 to scale our operations and expand our market reach.",
+            "color": "green",
+            "confidence": 0.85,
+            "reason": "Includes user data and demonstrates a clear benefit or outcome"
+          }
+        ]
+      }
+    },
+    "currentVersion": 9,
+    "updatedAt": "2025-05-27T10:43:28.236517"
+  }
+}

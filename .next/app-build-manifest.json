@@ -11,20 +11,35 @@
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
-    "/tracker/page": [
+    "/generate-pitch/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/tracker/page.js"
+      "static/chunks/app/generate-pitch/page.js"
     ],
-    "/pitch/page": [
+    "/improve-section/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/pitch/page.js"
+      "static/chunks/app/improve-section/page.js"
     ],
-    "/_not-found/page": [
+    "/questions/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/questions/page.js"
+    ],
+    "/match/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/match/page.js"
+    ],
+    "/pitch-status/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/pitch-status/page.js"
+    ],
+    "/email/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/email/page.js"
     ]
   }
 }
