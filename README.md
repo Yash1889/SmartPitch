@@ -65,7 +65,7 @@ SmartPitch is an AI-powered platform that helps founders create compelling inves
 - Python 3.13
 - OpenAI API integration
 - Anthropic API integration
-- Error handling with fallback mechanisms
+- Error handling with fallback mechanism
 
 ## Setup
 
