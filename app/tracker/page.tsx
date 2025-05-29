@@ -122,10 +122,10 @@ export default function TrackerPage() {
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th style={th}>Name</th>
-            <th style={th}>Email</th>
-            <th style={th}>Status</th>
-            <th style={th}>Last Updated</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Last Updated</th>
           </tr>
         </thead>
         <tbody>
